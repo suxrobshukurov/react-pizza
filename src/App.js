@@ -1,8 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
+import { Header } from './components';
 import Home from './Pages/Home';
 import Cart from './Pages/Cart';
+import NotFound from './Pages/NotFound';
 import './scss/app.scss';
 // import pizzes from "./assets/pizzes.json";
 
@@ -24,10 +26,16 @@ function App() {
     fetchData();
   }, []);
   return (
-    <Routes>
-      <Route path="/" element={<Home items={items} isLoaded={isLoaded} />} />
-      <Route path="cart" element={<Cart />} />
-    </Routes>
+    <div className="wrapper">
+      <Header />
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home items={items} isLoaded={isLoaded} />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </div>
   );
 }
 
