@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
+import { SearchContext } from '../App';
 
 export const Home = () => {
+  const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
@@ -12,7 +14,6 @@ export const Home = () => {
     sort: 'rating',
     order: 'desc',
   });
-
 
   React.useEffect(() => {
     async function fetchData() {
@@ -34,6 +35,15 @@ export const Home = () => {
     window.scrollTo(0, 0);
   }, [categoryId, sortType]);
 
+  const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
+  const pizzes = items
+    .filter((obj) => {
+      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+        return true;
+      }
+      return false;
+    })
+    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   return (
     <div className="container">
       <div className="content__top">
@@ -41,11 +51,7 @@ export const Home = () => {
         <Sort sortValue={sortType} onChangeSort={(id) => setSortType(id)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoaded
-          ? [...new Array(8)].map((_, index) => <Skeleton key={index} />)
-          : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-      </div>
+      <div className="content__items">{isLoaded ? skeleton : pizzes}</div>
     </div>
   );
 };
