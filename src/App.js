@@ -2,11 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components';
-import Home from './Pages/Home';
-import Cart from './Pages/Cart';
-import NotFound from './Pages/NotFound';
+import { Home, Cart, NotFound } from './Pages';
+
 import './scss/app.scss';
-// import pizzes from "./assets/pizzes.json";
 
 function App() {
   const [items, setItems] = React.useState([]);
