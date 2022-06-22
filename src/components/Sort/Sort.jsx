@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-const Sort = () => {
+export const Sort = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(0);
   const list = ['популярности', 'цене', 'алфавиту'];
 
   const onClickListItem = (index) => {
     setSelected(index);
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
   }
   return (
     <div className="sort">
@@ -50,5 +50,3 @@ const Sort = () => {
     </div>
   )
 }
-
-export default Sort
