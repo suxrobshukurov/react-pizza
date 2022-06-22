@@ -19,6 +19,9 @@
 
     b {
       margin-right: 8px;
+      @media (max-width:395px) {
+        font-size: 0.9em;
+      }
     }
 
     span {

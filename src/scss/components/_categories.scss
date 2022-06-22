@@ -21,6 +21,10 @@
         margin: 10px;
       }
 
+      @media (max-width:395px) {
+        padding: 5px 15px;
+      }
+
       &:hover {
         background-color: darken(#f9f9f9, 2%);
       }

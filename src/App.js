@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components';
-import { Home, Cart, NotFound } from './Pages';
+import { Home, Cart, NotFound } from './pages';
 
 import './scss/app.scss';
 

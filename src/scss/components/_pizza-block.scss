@@ -10,9 +10,9 @@
   text-align: center;
   margin-bottom: 65px;
 
-  // &:not(:nth-of-type(4n)) {
-  //   margin-right: 35px;
-  // }
+  @media (max-width:395px) {
+    width: 247px;
+  }
 
   &__image {
     width: 260px;

@@ -2,6 +2,8 @@ import React from 'react';
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 
 export const Home = ({ items, isLoaded }) => {
+  window.scrollTo(0, 0);
+
   return (
     <div className="container">
       <div className="content__top">
