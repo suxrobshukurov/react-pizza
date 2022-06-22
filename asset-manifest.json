@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/suxrobshukurov/react-pizza.git/static/css/main.5073d5fa.css",
-    "main.js": "/suxrobshukurov/react-pizza.git/static/js/main.7aac7eee.js",
-    "static/media/pizza-logo.svg": "/suxrobshukurov/react-pizza.git/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
-    "index.html": "/suxrobshukurov/react-pizza.git/index.html",
-    "main.5073d5fa.css.map": "/suxrobshukurov/react-pizza.git/static/css/main.5073d5fa.css.map",
-    "main.7aac7eee.js.map": "/suxrobshukurov/react-pizza.git/static/js/main.7aac7eee.js.map"
+    "main.css": "/react-pizza/static/css/main.5073d5fa.css",
+    "main.js": "/react-pizza/static/js/main.eaf88518.js",
+    "static/media/pizza-logo.svg": "/react-pizza/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
+    "index.html": "/react-pizza/index.html",
+    "main.5073d5fa.css.map": "/react-pizza/static/css/main.5073d5fa.css.map",
+    "main.eaf88518.js.map": "/react-pizza/static/js/main.eaf88518.js.map"
   },
   "entrypoints": [
     "static/css/main.5073d5fa.css",
-    "static/js/main.7aac7eee.js"
+    "static/js/main.eaf88518.js"
   ]
 }
