@@ -13,32 +13,15 @@ export const Home = () => {
     order: 'desc',
   });
 
-  React.useEffect(() => {
-    async function fetchData() {
-      try {
-        setIsLoaded(true);
-        const itemResponse = await axios.get(
-          `https://62b07cede460b79df04704b4.mockapi.io/items?sortBy=${sortType.sort}&order=${sortType.order}`,
-        );
-        setItems(itemResponse.data);
-        setIsLoaded(false);
-      } catch (error) {
-        alert('Ошибка при запросе данных ;(');
-        console.error(error);
-      }
-    }
-    fetchData();
-    window.scrollTo(0, 0);
-  }, [sortType]);
 
   React.useEffect(() => {
     async function fetchData() {
       try {
         setIsLoaded(true);
         const itemResponse = await axios.get(
-          `https://62b07cede460b79df04704b4.mockapi.io/items${
-            categoryId === 0 ? '' : '?category=' + categoryId
-          }`,
+          `https://62b07cede460b79df04704b4.mockapi.io/items?${
+            categoryId > 0 ? `category=${categoryId}` : ''
+          }&sortBy=${sortType.sort}&order=${sortType.order}`,
         );
         setItems(itemResponse.data);
         setIsLoaded(false);
@@ -49,7 +32,7 @@ export const Home = () => {
     }
     fetchData();
     window.scrollTo(0, 0);
-  }, [categoryId]);
+  }, [categoryId, sortType]);
 
   return (
     <div className="container">
