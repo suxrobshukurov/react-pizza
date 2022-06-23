@@ -1,18 +1,32 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/slices/filterSlice';
 
 import styles from './Search.module.scss';
 import cn from 'classnames';
+import debounce from 'lodash.debounce';
 
 export const Search = () => {
   const inputRef = React.useRef(null);
-  const searchValue = useSelector((state) => state.filter.searchValue);
+  const [value, setValue] = React.useState('');
   const dispatch = useDispatch();
 
   const clearInput = () => {
     dispatch(setSearchValue(''));
-    inputRef.current.focus();
+    setValue('');
+    inputRef.current?.focus();
+  };
+
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      dispatch(setSearchValue(str));
+    }, 800),
+    [],
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
   };
   return (
     <div className={styles.root}>
@@ -58,12 +72,12 @@ export const Search = () => {
         type="text"
         placeholder="Поиск..."
         className={cn(styles.input, {
-          [styles.visible]: searchValue,
+          [styles.visible]: value,
         })}
-        value={searchValue}
-        onChange={(e) => dispatch(setSearchValue(e.target.value))}
+        value={value}
+        onChange={onChangeInput}
       />
-      {searchValue && (
+      {value && (
         <svg
           className={styles.clearIcon}
           viewBox="0 0 20 20"

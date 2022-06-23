@@ -5,3 +5,4 @@ export * from './PizzaBlock/PizzaBlock';
 export * from './PizzaBlock/Skeleton';
 export * from './Search/Search';
 export * from './NotFoundBlock/NotFoundBlock';
+export * from './Pagination/Pagination';
