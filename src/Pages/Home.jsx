@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 import { SearchContext } from '../App';
@@ -8,12 +9,9 @@ export const Home = () => {
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(true);
-  const [categoryId, setCategoryId] = React.useState(0);
-  const [sortType, setSortType] = React.useState({
-    name: 'Наиболее популярный',
-    sort: 'rating',
-    order: 'desc',
-  });
+
+  const categoryId = useSelector((state) => state.filters.categoryId);
+  const sortType = useSelector((state) => state.filters.sort);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -47,8 +45,8 @@ export const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories categoryValue={categoryId} onClinkCategory={(id) => setCategoryId(id)} />
-        <Sort sortValue={sortType} onChangeSort={(id) => setSortType(id)} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoaded ? skeleton : pizzes}</div>

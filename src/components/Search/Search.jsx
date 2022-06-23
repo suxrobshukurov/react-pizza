@@ -3,7 +3,7 @@ import styles from './Search.module.scss';
 import cn from 'classnames';
 import { SearchContext } from '../../App';
 
-const Search = () => {
+export const Search = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
   return (
     <div className={styles.root}>
@@ -65,5 +65,3 @@ const Search = () => {
     </div>
   );
 };
-
-export default Search;
