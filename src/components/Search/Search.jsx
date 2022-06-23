@@ -1,10 +1,19 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchValue } from '../../redux/slices/filterSlice';
+
 import styles from './Search.module.scss';
 import cn from 'classnames';
-import { SearchContext } from '../../App';
 
 export const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const inputRef = React.useRef(null);
+  const searchValue = useSelector((state) => state.filter.searchValue);
+  const dispatch = useDispatch();
+
+  const clearInput = () => {
+    dispatch(setSearchValue(''));
+    inputRef.current.focus();
+  };
   return (
     <div className={styles.root}>
       <label htmlFor="search">
@@ -44,6 +53,7 @@ export const Search = () => {
         </svg>
       </label>
       <input
+        ref={inputRef}
         id="search"
         type="text"
         placeholder="Поиск..."
@@ -51,14 +61,14 @@ export const Search = () => {
           [styles.visible]: searchValue,
         })}
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChange={(e) => dispatch(setSearchValue(e.target.value))}
       />
       {searchValue && (
         <svg
           className={styles.clearIcon}
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
-          onClick={() => setSearchValue('')}>
+          onClick={clearInput}>
           <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
         </svg>
       )}
