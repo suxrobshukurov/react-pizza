@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+
 import { useSelector } from 'react-redux';
 
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
@@ -9,9 +10,10 @@ export const Home = () => {
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(true);
-
-  const categoryId = useSelector((state) => state.filters.categoryId);
-  const sortType = useSelector((state) => state.filters.sort);
+  // redux toolkit
+  const categoryId = useSelector((state) => state.filter.categoryId);
+  const sortType = useSelector((state) => state.filter.sort);
+  // end redux toolkit
 
   React.useEffect(() => {
     async function fetchData() {

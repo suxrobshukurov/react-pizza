@@ -12,10 +12,10 @@ export const Sort = () => {
     { name: 'По алфавиту', sort: 'title', order: 'desc' },
     { name: 'С конца алфавиту', sort: 'title', order: 'asc' },
   ];
-
-  const sortValue = useSelector((state) => state.filters.sort);
+  // redux toolkit
+  const sortValue = useSelector((state) => state.filter.sort);
   const dispatch = useDispatch();
-
+  // end redux toolkit
   const onClickListItem = (obj) => {
     dispatch(setSortType(obj));
     setIsOpen(!isOpen);
@@ -36,8 +36,6 @@ export const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        {console.log(sortValue)}
-
         <span onClick={() => setIsOpen(!isOpen)}>{sortValue.name}</span>
       </div>
 
