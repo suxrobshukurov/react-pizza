@@ -20,7 +20,7 @@ export const Search = () => {
   const updateSearchValue = React.useCallback(
     debounce((str) => {
       dispatch(setSearchValue(str));
-    }, 800),
+    }, 500),
     [],
   );
 

@@ -1,42 +1,71 @@
 import React from 'react';
 import axios from 'axios';
+import qs from 'qs';
+import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentPage } from '../redux/slices/filterSlice';
+import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 
-import { Categories, Sort, PizzaBlock, Skeleton, Pagination } from '../components';
+import { Categories, Sort, PizzaBlock, Skeleton, Pagination, listSort } from '../components';
 
 export const Home = () => {
+  const isMounted = React.useRef(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { categoryId, sort, searchValue, currentPage } = useSelector((state) => state.filter);
+
   const [items, setItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(true);
-  // redux toolkit
-  const dispatch = useDispatch();
-  const { categoryId, sort, searchValue, currentPage } = useSelector((state) => state.filter);
-  // const categoryId = useSelector((state) => state.filter.categoryId);
-  // const sort = useSelector((state) => state.filter.sort);
-  // const searchValue = useSelector((state) => state.filter.searchValue);
-  // const currentPage = useSelector((state) => state.filter.currentPage);
-  // end redux toolkit
+
+  async function fetchData() {
+    try {
+      setIsLoaded(true);
+      const itemResponse = await axios.get(
+        `https://62b07cede460b79df04704b4.mockapi.io/items?page=${currentPage}&limit=4${
+          categoryId > 0 ? `&category=${categoryId}` : ''
+        }&search=${searchValue}&sortBy=${sort.sort}&order=${sort.order}`,
+      );
+      setItems(itemResponse.data);
+      setIsLoaded(false);
+    } catch (error) {
+      alert('Ошибка при запросе данных ;(');
+      console.error(error);
+    }
+  }
 
   React.useEffect(() => {
-    async function fetchData() {
-      try {
-        setIsLoaded(true);
-        const itemResponse = await axios.get(
-          `https://62b07cede460b79df04704b4.mockapi.io/items?page=${currentPage}&limit=4${
-            categoryId > 0 ? `&category=${categoryId}` : ''
-          }&search=${searchValue}&sortBy=${sort.sort}&order=${sort.order}`,
-        );
-        setItems(itemResponse.data);
-        setIsLoaded(false);
-      } catch (error) {
-        alert('Ошибка при запросе данных ;(');
-        console.error(error);
-      }
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = listSort.find((obj) => obj.sort === params.sort);
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        }),
+      );
     }
-    fetchData();
+  }, []);
+
+  React.useEffect(() => {
+    if (!isMounted.current) {
+      fetchData();
+    }
     window.scrollTo(0, 0);
   }, [categoryId, sort, searchValue, currentPage]);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryStr = qs.stringify({
+        sort: sort.sort,
+        order: sort.order,
+        currentPage,
+        categoryId,
+      });
+      navigate(`?${queryStr}`);
+    }
+    // isMounted.current = true;
+  }, [categoryId, sort, currentPage]);
 
   const onChangePage = (page) => {
     dispatch(setCurrentPage(page));
