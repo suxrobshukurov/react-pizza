@@ -36,7 +36,7 @@ export const Home = () => {
     }
     fetchData();
     window.scrollTo(0, 0);
-  }, [categoryId, sort, searchValue]);
+  }, [categoryId, sort, searchValue, currentPage]);
 
   const onChangePage = (page) => {
     dispatch(setCurrentPage(page));
