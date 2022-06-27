@@ -7,6 +7,8 @@ import { Search } from '../../components';
 export const Header = () => {
   const { items, totalPrice } = useSelector((state) => state.card);
 
+  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+
   return (
     <div className="header">
       <div className="container">
@@ -50,7 +52,7 @@ export const Header = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{items.length}</span>
+            <span>{totalCount}</span>
           </Link>
         </div>
       </div>
