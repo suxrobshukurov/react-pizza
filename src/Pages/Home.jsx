@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { setItems } from '../redux/slices/pizza/pizzaSlice';
 
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination, listSort } from '../components';
 
@@ -14,19 +15,20 @@ export const Home = () => {
   const dispatch = useDispatch();
 
   const { categoryId, sort, searchValue, currentPage } = useSelector((state) => state.filter);
+  const { items } = useSelector((state) => state.pizza);
 
-  const [items, setItems] = React.useState([]);
+  // const [items, setItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(true);
 
   async function fetchData() {
     try {
       setIsLoaded(true);
-      const itemResponse = await axios.get(
+      const { data } = await axios.get(
         `https://62b07cede460b79df04704b4.mockapi.io/items?page=${currentPage}&limit=4${
           categoryId > 0 ? `&category=${categoryId}` : ''
         }&search=${searchValue}&sortBy=${sort.sort}&order=${sort.order}`,
       );
-      setItems(itemResponse.data);
+      dispatch(setItems(data));
       setIsLoaded(false);
     } catch (error) {
       alert('Ошибка при запросе данных ;(');
