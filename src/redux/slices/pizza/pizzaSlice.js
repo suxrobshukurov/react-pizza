@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchPizzas } from './asyncAction';
 
 const initialState = {
   items: [],
@@ -9,6 +10,11 @@ export const pizzaSlice = createSlice({
   initialState,
   reducers: {
     setItems(state, action) {
+      state.items = action.payload;
+    },
+  },
+  extraReducers: {
+    [fetchPizzas.fulfilled]: (state, action) => {
       state.items = action.payload;
     },
   },

@@ -1,11 +1,11 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { setItems } from '../redux/slices/pizza/pizzaSlice';
+import { fetchPizzas } from '../redux/slices/pizza/asyncAction';
 
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination, listSort } from '../components';
 
@@ -20,15 +20,12 @@ export const Home = () => {
   // const [items, setItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(true);
 
-  async function fetchData() {
+  async function getPizzas() {
     try {
       setIsLoaded(true);
-      const { data } = await axios.get(
-        `https://62b07cede460b79df04704b4.mockapi.io/items?page=${currentPage}&limit=4${
-          categoryId > 0 ? `&category=${categoryId}` : ''
-        }&search=${searchValue}&sortBy=${sort.sort}&order=${sort.order}`,
+      dispatch(
+        fetchPizzas({ currentPage, categoryId, searchValue, sort: sort.sort, order: sort.order }),
       );
-      dispatch(setItems(data));
       setIsLoaded(false);
     } catch (error) {
       alert('Ошибка при запросе данных ;(');
@@ -51,7 +48,7 @@ export const Home = () => {
 
   React.useEffect(() => {
     if (!isMounted.current) {
-      fetchData();
+      getPizzas();
     }
     window.scrollTo(0, 0);
   }, [categoryId, sort, searchValue, currentPage]);
