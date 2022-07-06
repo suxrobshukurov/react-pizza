@@ -15,22 +15,15 @@ export const Home = () => {
   const dispatch = useDispatch();
 
   const { categoryId, sort, searchValue, currentPage } = useSelector((state) => state.filter);
-  const { items } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector((state) => state.pizza);
 
   // const [items, setItems] = React.useState([]);
-  const [isLoaded, setIsLoaded] = React.useState(true);
+  // const [isLoaded, setIsLoaded] = React.useState(true);
 
   async function getPizzas() {
-    try {
-      setIsLoaded(true);
-      dispatch(
-        fetchPizzas({ currentPage, categoryId, searchValue, sort: sort.sort, order: sort.order }),
-      );
-      setIsLoaded(false);
-    } catch (error) {
-      alert('Ошибка при запросе данных ;(');
-      console.error(error);
-    }
+    dispatch(
+      fetchPizzas({ currentPage, categoryId, searchValue, sort: sort.sort, order: sort.order }),
+    );
   }
 
   React.useEffect(() => {
@@ -79,7 +72,7 @@ export const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoaded ? skeleton : pizzes}</div>
+      <div className="content__items">{status === 'loading' ? skeleton : pizzes}</div>
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
